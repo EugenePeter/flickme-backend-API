@@ -1,11 +1,17 @@
-const moment = require("moment");
+const Message = require('../models/Messages-models')
 
-function formatMessage(username, text) {
+const formatMsg = (sender, message) => {
   return {
-    username,
-    text,
-    time: moment().format("h:mm a"),
-  };
+      sender,
+      message,
+      date: new Date().toISOString()
+  }
 }
 
-module.exports = formatMessage;
+const getRoomMessagesFn = async (room) => {
+    let currentUser = new Message(room)
+    const result = await currentUser.getMessages()
+    return result
+}
+
+module.exports = { formatMsg, getRoomMessagesFn }
